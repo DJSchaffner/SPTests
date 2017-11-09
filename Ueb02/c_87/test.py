@@ -54,6 +54,20 @@ suite = [
 		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
 		returnCode = lambda v: v != 0
 	),
+	Test(
+		name = "Invalid Filter (LessEqual -> empty)",
+		description = "Invalid Filter",
+		command = "$DUT 1 2 3 +l 0 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Invalid Filter (GreaterEqual -> empty)",
+		description = "Invalid Filter",
+		command = "$DUT 1 2 3 +u 4 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		returnCode = 0
+	),
 	#Valid Operations
 	Test(
 		name = "Valid Operation (Print)#1",
@@ -190,13 +204,6 @@ suite = [
 		returnCode = 0
 	),
 	Test(
-		name = "Valid Filter (LessEqual)#3",
-		description = "Valid Filter",
-		command = "$DUT 1 2 3 +l 0 -p",
-		stdout = lambda x: len(x) > 0 and x.find('[ ]') >= 0,
-		returnCode = 0
-	),
-	Test(
 		name = "Valid Filter (GreaterEqual)#1",
 		description = "Valid Filter",
 		command = "$DUT 1 2 3 +u 0 -p",
@@ -208,13 +215,6 @@ suite = [
 		description = "Valid Filter",
 		command = "$DUT 1 2 3 +u 2 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 2 3 ]') >= 0,
-		returnCode = 0
-	),
-	Test(
-		name = "Valid Filter (GreaterEqual)#3",
-		description = "Valid Filter",
-		command = "$DUT 1 2 3 +u 4 -p",
-		stdout = lambda x: len(x) > 0 and x.find('[ ]') >= 0,
 		returnCode = 0
 	)
 ]
