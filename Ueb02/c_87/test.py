@@ -57,16 +57,16 @@ suite = [
 	Test(
 		name = "Invalid Filter (LessEqual -> empty)",
 		description = "Invalid Filter",
-		command = "$DUT 1 2 3 +l 0 -p",
+		command = "$DUT 1 2 3 +u 0 -p",
 		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
-		returnCode = 0
+		returnCode = lambda v: v != 0
 	),
 	Test(
 		name = "Invalid Filter (GreaterEqual -> empty)",
 		description = "Invalid Filter",
-		command = "$DUT 1 2 3 +u 4 -p",
+		command = "$DUT 1 2 3 +l 4 -p",
 		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
-		returnCode = 0
+		returnCode = lambda v: v != 0
 	),
 	#Valid Operations
 	Test(
