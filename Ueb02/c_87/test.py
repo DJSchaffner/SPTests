@@ -170,7 +170,7 @@ suite = [
 	Test(
 		name = "Valid Operation (Monoton)#1",
 		description = "Valid Operation",
-		command = "$DUT 1 -2 -3 3 2 -l",
+		command = "$DUT 1 -2 -3 3 2 -c",
 		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: no') >= 0,
 		returnCode = 0
 	),
@@ -186,6 +186,13 @@ suite = [
 		description = "Valid Operation",
 		command = "$DUT 1 2 2 3 -c",
 		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: no') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Operation (Monoton)#4",
+		description = "Valid Operation",
+		command = "$DUT 3 2 1 -c",
+		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: yes') >= 0,
 		returnCode = 0
 	),
 	#Valid Filters
