@@ -192,28 +192,28 @@ suite = [
 	Test(
 		name = "Valid Filter (LessEqual)#1",
 		description = "Valid Filter",
-		command = "$DUT 1 2 3 +l 4 -p",
+		command = "$DUT 1 2 3 +u 4 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 3 ]') >= 0,
 		returnCode = 0
 	),
 	Test(
 		name = "Valid Filter (LessEqual)#2",
 		description = "Valid Filter",
-		command = "$DUT 1 2 3 +l 2 -p",
+		command = "$DUT 1 2 3 +u 2 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 ]') >= 0,
 		returnCode = 0
 	),
 	Test(
 		name = "Valid Filter (GreaterEqual)#1",
 		description = "Valid Filter",
-		command = "$DUT 1 2 3 +u 0 -p",
+		command = "$DUT 1 2 3 +l 0 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 3 ]') >= 0,
 		returnCode = 0
 	),
 	Test(
 		name = "Valid Filter (GreaterEqual)#2",
 		description = "Valid Filter",
-		command = "$DUT 1 2 3 +u 2 -p",
+		command = "$DUT 1 2 3 +l 2 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 2 3 ]') >= 0,
 		returnCode = 0
 	)
