@@ -157,7 +157,7 @@ suite = [
 		name = "Valid Operation (Product)#2",
 		description = "Valid Operation",
 		command = "$DUT 1 -2 -3 3 2 -P",
-		stdout = lambda x: len(x) > 0 and x.find('Product: -36') >= 0,
+		stdout = lambda x: len(x) > 0 and x.find('Product: 36') >= 0,
 		returnCode = 0
 	),
 	Test(
