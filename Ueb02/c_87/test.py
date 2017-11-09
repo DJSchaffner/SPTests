@@ -136,7 +136,7 @@ suite = [
 		name = "Valid Operation (Sum)#1",
 		description = "Valid Operation",
 		command = "$DUT 1 -2 -3 3 2 -s",
-		stdout = lambda x: len(x) > 0 and x.find('Sum: 0') >= 0,
+		stdout = lambda x: len(x) > 0 and x.find('Sum: 1') >= 0,
 		returnCode = 0
 	),
 	Test(
