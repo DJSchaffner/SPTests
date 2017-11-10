@@ -50,14 +50,14 @@ suite = [
     Test(
 		name = "Invalid Call (Unknown Operation)#1",
 		description = "Invalid program call",
-		command = "$DUT 1 +l -pb",
+		command = "$DUT 1 +l 1 -pb",
 		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Operation)#2",
 		description = "Invalid program call",
-		command = "$DUT 1 +l -f",
+		command = "$DUT 1 +l 1 -f",
 		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
