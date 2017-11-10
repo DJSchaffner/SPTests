@@ -9,63 +9,98 @@ suite = [
 		name = "Invalid Call (Unknown Argument)#1",
 		description = "Invalid program call",
 		command = "$DUT hallo",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Argument)#2",
 		description = "Invalid program call",
 		command = "$DUT 1Hallo",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Invalid Call (Unknown Argument)#3",
+		description = "Invalid program call",
+		command = "$DUT 1 2 3 4-p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Filter missing arg)#1",
 		description = "Invalid program call",
 		command = "$DUT +l -p",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Filter is missing its argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Filter)#1",
 		description = "Invalid program call",
 		command = "$DUT 1 +h -p",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Filter)#2",
 		description = "Invalid program call",
 		command = "$DUT 1 +lp -p",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Operation)#1",
 		description = "Invalid program call",
 		command = "$DUT 1 +l -pb",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
     Test(
 		name = "Invalid Call (Unknown Operation)#2",
 		description = "Invalid program call",
 		command = "$DUT 1 +l -f",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Invalid Call (Array Empty)",
+		description = "Invalid program call",
+		command = "$DUT +l 4 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: No values given!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Invalid Call (Array Full)#1",
+		description = "Invalid program call",
+		command = "$DUT 1 2 3 4 5 6 7 8 9 10 11 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Array full!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Invalid Call (Array Full)#2",
+		description = "Invalid program call",
+		command = "$DUT 1 2 3 4 5 6 7 8 9 10 11 12 13 14 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Array full!') >= 0,
 		returnCode = lambda v: v != 0
 	),
 	Test(
 		name = "Invalid Filter (LessEqual -> empty)",
 		description = "Invalid Filter",
 		command = "$DUT 1 2 3 +u 0 -p",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: No values given!') >= 0,
 		returnCode = lambda v: v != 0
 	),
 	Test(
 		name = "Invalid Filter (GreaterEqual -> empty)",
 		description = "Invalid Filter",
 		command = "$DUT 1 2 3 +l 4 -p",
-		stderr = lambda x: len(x) > 0 and x.find('ERROR') >= 0,
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: No values given!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Valid Multiple Filters (ul -> empty)",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +l 2 +u 1 -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: No values given!') >= 0,
 		returnCode = lambda v: v != 0
 	),
 	#Valid Operations
@@ -195,6 +230,13 @@ suite = [
 		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: yes') >= 0,
 		returnCode = 0
 	),
+	Test(
+		name = "Valid Operation (Multiline)",
+		description = "Valid Operation",
+		command = "$DUT 3 2 1 -a -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 3 ]\n[ 3 2 1 ]') >= 0,
+		returnCode = 0
+	),
 	#Valid Filters
 	Test(
 		name = "Valid Filter (LessEqual)#1",
@@ -222,6 +264,35 @@ suite = [
 		description = "Valid Filter",
 		command = "$DUT 1 2 3 +l 2 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 2 3 ]') >= 0,
+		returnCode = 0
+	),
+	#Multiple Filters 
+	Test(
+		name = "Valid Multiple Filters (ul)",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +l 2 +u 2 -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ 2 ]') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Multiple Filters (2x l)",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +l 2 +l 2 -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ 2 3 ]') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Multiple Filters (2x u)",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +u 2 +u 2 -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 ]') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Multiple Filters (2x u)",
+		description = "Valid Filter",
+		command = "$DUT 3 5 7 8 +u 7 +l 4 -p +l 3 -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ 5 7 ]\n[ 3 5 7 ]') >= 0,
 		returnCode = 0
 	)
 ]
