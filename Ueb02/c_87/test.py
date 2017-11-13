@@ -26,10 +26,24 @@ suite = [
 		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
+	Test(
+		name = "Invalid Call (Unknown Argument)#4",
+		description = "Invalid program call",
+		command = "$DUT -z",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Unknown argument!') >= 0,
+		returnCode = lambda v: v != 0
+	),
     Test(
 		name = "Invalid Call (Filter missing arg)#1",
 		description = "Invalid program call",
 		command = "$DUT +l -p",
+		stderr = lambda x: len(x) > 0 and x.find('ERROR: Filter is missing its argument!') >= 0,
+		returnCode = lambda v: v != 0
+	),
+	Test(
+		name = "Invalid Call (Filter missing arg)#1",
+		description = "Invalid program call",
+		command = "$DUT 1 2 3 4 +l",
 		stderr = lambda x: len(x) > 0 and x.find('ERROR: Filter is missing its argument!') >= 0,
 		returnCode = lambda v: v != 0
 	),
@@ -281,6 +295,20 @@ suite = [
 		returnCode = 0
 	),
 	Test(
+		name = "Valid Operation (Monoton)#5",
+		description = "Valid Operation",
+		command = "$DUT 0 0 0 0 -c",
+		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: no') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Operation (Monoton)#6",
+		description = "Valid Operation",
+		command = "$DUT 1 2 -c",
+		stdout = lambda x: len(x) > 0 and x.find('Strictly monotonically: yes') >= 0,
+		returnCode = 0
+	),
+	Test(
 		name = "Valid Operation (Multiline)",
 		description = "Valid Operation",
 		command = "$DUT 3 2 1 -a -p",
@@ -367,10 +395,24 @@ suite = [
 		returnCode = 0
 	),
 	Test(
-		name = "Valid Multiple Filters (empty -> then not)21",
+		name = "Valid Multiple Filters (empty -> then not)#2",
 		description = "Valid Filter",
 		command = "$DUT 3 5 7 8 +u 5 +l 3 +u 3 -p",
 		stdout = lambda x: len(x) > 0 and x.find('[ 3 ]') >= 0,
+		returnCode = 0
+	),
+	Test(
+		name = "Valid Multiple Filters (empty -> empty)#3",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +u 0 -p +l 0 -p",
+		stdout = lambda x: len(x) > 0 and x.find('[ ]\n[ ]') >= 0,
+		returnCode = 0
+	),	 
+	Test(
+		name = "Valid Multiple Filters (filter -> add numbers -> print)#4",
+		description = "Valid Filter",
+		command = "$DUT 1 2 3 +u 7 5 6 +l 1 -a",
+		stdout = lambda x: len(x) > 0 and x.find('[ 1 2 3 5 6 ]') >= 0,
 		returnCode = 0
 	),
 	#Valid filter empty array 
